@@ -15,6 +15,8 @@ export const signUp = async (req, res) => {
         .status(400)
         .json({ message: "Password must be at least 6 characters" });
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
     if (!emailRegex.test(email))
       return res.status(400).json({ message: "Invailed email format" });
 
@@ -38,8 +40,9 @@ export const signUp = async (req, res) => {
       // await newUser.save();
 
       // after code rabbit
-      const savedUser = await newUser.save();
       generateToken(newUser._id, res);
+      const savedUser = await newUser.save();
+
 
       res.status(201).json({
         _id: newUser._id,
@@ -62,7 +65,7 @@ export const signUp = async (req, res) => {
     }
   } catch (error) {
     console.log("Error in signup controller: ", error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "Internal server error 1" });
   }
 };
 
@@ -73,26 +76,48 @@ export const signIn = async (req, res) => {
   try {
     const user = await User.findOne({email})
     if (!user) return res.status(400).json({message:"Invalid credentials"})
-        // Nevre tell the user which input is incorrect
+      // Nevre tell the user which input is incorrect
 
-    const isPasswordIncorrect = await bcrypt.compare(password, User.password)
+    const isPasswordIncorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordIncorrect) return res.status(400).json({ message: "Invalid credentials"})
 
-    generateToken(User._id, res)
+    generateToken(user._id, res)
 
     res .status(200).json({
-        _id: User._id,
-        fullName: User.fullName,
-        email: User.email,
-        profilePic : User.profilePic,
+        _id: user._id,
+        fullName: user.fullName,
+        email: user.email,
+        profilePic : user.profilePic,
     });
   } catch (error) {
     console.error("Error in login controller:", error);
-    res.status(500).json({message: "Internal server error"})
+    res.status(500).json({message: "Internal server error2"})
   }
 };
 
 export const signOut = (_, res) => {
-    res.cookie("jwt", "", {maxAge: 0});
-    res.status(200).json({message: "Logged out successfully"});
+  res.cookie("jwt", "", {maxAge: 0});
+  res.status(200).json({message: "Logged out successfully"});
 };
+
+export const updateProfile = async ( req, res ) => {
+  try {
+    const { profilePic } = req.body;
+
+    if ( !profilePic ) return res.status(400).json({ message: "Profile pic is required"});
+
+    const userId = req.user._id;
+
+    const uploadResponse = await User.findByIdAndUpdate(
+      userId,
+      { profilePic: uploadResponse.secure_url },
+      { new: true }
+    );
+
+    res.status(200).json(uploadResponse);
+  } catch (error) {
+    console.log("Error in update profile: ", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
