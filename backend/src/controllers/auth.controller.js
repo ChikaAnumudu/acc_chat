@@ -3,6 +3,9 @@ import { generateToken } from "../lib/Utils.js";
 import User from "../model/Users.js";
 import { sendWelcomeEmail } from "../emails/emailHandlers.js";
 import { ENV } from "../lib/env.js";
+import cloudinary from "../lib/cloudinary.js";
+
+
 
 export const signUp = async (req, res) => {
   const { fullName, email, password } = req.body;
@@ -106,13 +109,13 @@ export const updateProfile = async ( req, res ) => {
 
       const uploadResponse = await cloudinary.uploader.upload(profilePic);
 
-      const uploadUser = await User.findByIdAndUpdate( 
+      const updateUser = await User.findByIdAndUpdate( 
         userId, 
         { profilePic: uploadResponse.secure_url }, 
         { new: true }
       );
 
-      res.status(200).json(uploadUser);
+      res.status(200).json(updateUser);
     } catch (error) {
       console.error("Error to update profile:", error);
       res.status(500).json({ message: "Internal server error" });
