@@ -1,9 +1,13 @@
 import express from "express";
+import { getAllContacts } from "../controllers/message.controller.js";
+import { protectRoute } from "../middleware/auth_middleware.js";
+
 
 const router = express.Router();
 
-router.get("/message", (req, res)=>{
-    res.send('God is with you Clinton');
-})
+router.get("/contacts", protectRoute, getAllContacts);
+// router.get("/chats", getChatPartners);
+// router.get(":id", getMessageByUserId);
+// router.post("/send/:id", sendMessage)
 
 export default router;
