@@ -6,7 +6,7 @@ import route from "./user.route.js";
 
 
 const router = express.Router();
-router.use(arcjetProtection);
+// router.use(arcjetProtection);
 
 
 
