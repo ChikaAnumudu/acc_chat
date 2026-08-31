@@ -18,5 +18,10 @@
   "bugs": {
     "url": "https://github.com/ChikaAnumudu/acc_chat/issues"
   },
-  "homepage": "https://github.com/ChikaAnumudu/acc_chat#readme"
+  "homepage": "https://github.com/ChikaAnumudu/acc_chat#readme",
+  "devDependencies": {
+    "autoprefixer": "^10.5.4",
+    "postcss": "^8.5.26",
+    "tailwindcss": "^3.4.19"
+  }
 }
