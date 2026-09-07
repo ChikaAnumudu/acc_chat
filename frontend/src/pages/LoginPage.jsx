@@ -92,7 +92,7 @@ function loginPage() {
             <div className="hidden mid:w-1/2 md:flex item-center justify-center p-6 bg-gradient-to-bl from-slate-800/20 to-transparent">
               <div>
                 <img
-                  src="../../../public/image/register.png"
+                  src="../../../../image/register.png"
                   alt="Unlocking great Grace from God"
                   className="w-full h-auto object-contain"
                 />

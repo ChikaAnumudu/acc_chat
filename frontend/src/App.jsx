@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Route, Routes, Navigate } from "react-router";
-import Chatpage from "./pages/ChatPage.jsx";
+import ChatPage from './pages/ChatPage.jsx';
 import LoginPage from "./pages/LoginPage.jsx";
 import SignupPage from "./pages/SignupPage.jsx";
 import { useAuthStore } from "./store/useAuthStore.js"
@@ -29,7 +29,7 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={authUser ? <Chatpage /> : <Navigate to={"/login"} />}
+          element={authUser ? <ChatPage /> : <Navigate to={"/login"} />}
         />
         <Route
           path="/login"

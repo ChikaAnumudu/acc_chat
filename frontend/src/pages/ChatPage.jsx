@@ -1,13 +1,16 @@
 import React from 'react'
-import { useAuthStore } from '../store/useAuthStore'
-import BorderAnimatedContainer from '../components/BorderAnimatedContainer';
-import ActiveTabSwitch from '../components/ActiveTabSwitch';
-import ProfileHeader from '../components/ProfileHeader';
-import ContactList from '../components/ContactList';
-import NoConversationPlaceholder from '../components/NoConversationPlaceholder';
+import { useChatStore } from '../store/useChatStore.js';
+import BorderAnimatedContainer from '../components/BorderAnimatedContainer.jsx';
+import ActiveTabSwitch from '../components/ActiveTabSwitch.jsx';
+import ProfileHeader from '../components/ProfileHeader.jsx';
+import ContactList from '../components/ContactList.jsx';
+import ChatsList from '../components/ChatsList.jsx';
+import ChatContainer from "../components/ChatContainer.jsx";
+// import ChatContainer from ''
+import NoConversationPlaceholder from '../components/NoConversationPlaceholder.jsx';
 
-function chatPage() {
-  const { activeTab, selectedUser } = useAuthStore();
+function ChatPage() {
+  const { activeTab, selectedUser } = useChatStore();
   return (
     <div className="relative w-full max-w-6xl h-[800px] ">
       <BorderAnimatedContainer>
@@ -30,4 +33,4 @@ function chatPage() {
   );
 }
 
-export default chatPage
+export default ChatPage;

@@ -1,9 +1,50 @@
-import React from 'react'
+import React, { useEffect } from "react";
+import { useChatStore } from "../store/useChatStore.js";
+import NoChatsFound from "./NoChatsFound.jsx";
+import UsersLoadingSkeleton from "./UsersLoadingSkeleton.jsx";
 
 function ContactList() {
+  const {
+    getAllContacts,
+    allContacts,
+    isUsersLoading,
+    setSelectedUser,
+  } = useChatStore();
+
+  useEffect(() => {
+    getAllContacts();
+  }, [getAllContacts]);
+
+  if (isUsersLoading) return <UsersLoadingSkeleton />;
+  if (allContacts.length === 0) return <NoChatsFound />;
   return (
-    <div>ContactList</div>
-  )
+    <>
+      {allContacts.map((allContact) => {
+        return (
+          <div
+            key={allContact._id}
+            className="bg-cyan-500/10 p-4 rounded cursor-pointer hover:bg-cyan-500/20 transition-colors"
+            onClick={() => setSelectedUser(allContact)}
+          >
+            <div className="flex items-center gap-3">
+              {/* TODO: FIX THIS ONLINE STATUS AND MAKE IT WORK WITH SOCKET */}
+              <div className={`avatar online`}>
+                <div className="size-12 rounded-full">
+                  <img
+                    src={allContact.profilePic || "/../../../image/profile.jpg"}
+                    alt={allContact.fullName}
+                  />
+                </div>
+              </div>
+              <h4 className="text-slate-200  font-medium truncate">
+                {allContact.fullName || "Unnamed User"}
+              </h4>
+            </div>
+          </div>
+        );
+      })}
+    </>
+  );
 }
 
-export default ContactList
+export default ContactList;
