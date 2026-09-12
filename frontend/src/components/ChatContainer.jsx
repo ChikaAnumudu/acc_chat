@@ -7,16 +7,31 @@ import MessageInput from "./MessageInput.jsx";
 import MessageLoadingSkeleton from "./MessageLoadingSkeleton.jsx";
 import { Currency } from "lucide-react";
 
+
 function ChatContainer() {
-  const { selectedUser, getMessagesByUserId, messages, isMessageLoading } =
-    useChatStore();
+  const {
+    selectedUser,
+    getMessagesByUserId,
+    messages,
+    isMessageLoading,
+    subscribeToMessages,
+    unsubscribeFromMessages,
+  } = useChatStore();
   const { authUser } = useAuthStore()
 
   const messageEndRef = useRef(null)
 
   useEffect(() => {
     getMessagesByUserId(selectedUser?._id);
-  },[selectedUser,getMessagesByUserId]);
+    subscribeToMessages();
+    // clear up
+    return () => unsubscribeFromMessages();
+  }, [
+    selectedUser,
+    getMessagesByUserId,
+    subscribeToMessages,
+    unsubscribeFromMessages,
+  ]);
 
   useEffect(()=> {
     if(messageEndRef.current) {

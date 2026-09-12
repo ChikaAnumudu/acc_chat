@@ -7,8 +7,9 @@ import path from "path";
 import { ENV } from "./lib/env.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import { app, server } from "./lib/socket.js";
 
-const app = express();
+// const app = express();
 app.use(express.json({limit:"5mb"})); 
 app.use(cors({
   origin: ENV.CLIENT_URL,
@@ -32,7 +33,7 @@ if (ENV.NODE_ENV === "production") {
     res.sendFile(path.join (__dirname, "../frontend", "dist", "index.html") );
   })
 }
-app.listen(Port, () => {
+server.listen(Port, () => {
   console.log("Server is running on port : " + Port);
   connectDB();
 });
